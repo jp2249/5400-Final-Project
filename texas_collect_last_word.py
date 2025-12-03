@@ -121,7 +121,8 @@ def main():
                 "First Name": first_name,
                 "Last Name": last_name,
                 "Last Statement URL": last_statement_link,
-                "Last Statement": statement
+                "Last Statement": statement,
+                "crime": 1
             })
             
             if i % 10 == 0:
@@ -135,7 +136,7 @@ def main():
     os.makedirs(data_folder, exist_ok=True)
 
     filename = os.path.join(data_folder, "texas_last_statements.csv")
-    keys = ["TDCJ Number", "First Name", "Last Name", "Last Statement URL", "Last Statement"]
+    keys = ["TDCJ Number", "First Name", "Last Name", "Last Statement","Last Statement URL", "crime"]
 
     try:
         with open(filename, 'w', newline='', encoding='utf-8') as f:
