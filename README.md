@@ -1,17 +1,20 @@
 # 5400-Final-Project
 The Final Group Project for DSAN 5400
 
-# Sentiment Analysis Project Checklist
+Team Members:
+- Jeffrey Pinarchick
+- Tyler McCormick
+- Younghoon Kim
+- Sam Gold
+- Nikhil Poluri
 
 ## Project Structure & Setup
-- [ ] Create GitHub repository with one team member as owner
-- [ ] Add all team members as collaborators
 - [ ] Initialize with `pyproject.toml` (not setup.py)
 - [ ] Create `environment.yml` file with all dependencies
 - [ ] Set up proper directory structure (src/, tests/, data/, docs/, etc.)
 
 ## README Documentation
-- [ ] List full names of all team members
+- [✅] List full names of all team members
 - [ ] Project aim and research question
 - [ ] Installation instructions
 - [ ] Usage examples with code snippets
@@ -21,16 +24,16 @@ The Final Group Project for DSAN 5400
 
 ## Data Management
 - [ ] Set up data storage (GitHub LFS or Google drive link)
-- [ ] Create data download script if possible
-- [ ] Implement data preprocessing pipeline
-- [ ] Store preprocessed data in folder
+- [✅] Create data download script if possible
+- [✅] Implement data preprocessing pipeline
+- [✅] Store preprocessed data in folder
 - [ ] Document data sources and preprocessing steps
-- [ ] Ensure no raw data pushed to GitHub
+- [ ] NO data pushed to GitHub
 
 ## Code Implementation
-- [ ] Design object-oriented architecture (classes for model, preprocessing, evaluation, etc.)
+- [ ] Design OOP (classes for model, preprocessing, evaluation, etc.)
 - [ ] Implement sentiment analysis model(s)
-- [ ] Add docstrings to all functions, methods, and classes
+- [ ] Add comments to all functions, methods, and classes
 - [ ] Implement logging at key points (data loading, training, evaluation)
 - [ ] Follow PEP 8 standards using pylint (clean structue)
 
