@@ -1,0 +1,7 @@
+This code can be run on any raw data that contains a column called 'quote' (representing the text input) and a column called 'is_criminal' (representing the binary label for if the person corresponding to the quote was a criminal or not). If dealing with different column names (ex: a different binary column identifier), change the column names that are specified in the model/utils/load_data.py file.
+
+Input data does not need to be in a cleaned format as that is performed in the load_data.py file.
+
+From the root directory, run the command "python main.py" to view the entire streamlined process using the original raw data included in the final report. To run the tf-idf vectorizer and logistic regression model on a different set of raw data, run the command "-f path/to/raw/data", where "path/to/raw/data" represents the path of the new data file.
+
+To test the packages using pytest, run the command `pytest tests/ -v` from the root directory.
