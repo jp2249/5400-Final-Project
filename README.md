@@ -7,15 +7,37 @@ Team Members:
 - Sam Gold
 - Nikhil Poluri
 
+## Installation
+
+This project uses [Poetry](https://python-poetry.org/) for dependency management.
+
+### Prerequisites
+- Python ^3.10
+- Poetry
+
+### Setup
+
+1.  **Install Dependencies**:
+    ```bash
+    poetry install
+    ```
+
+2.  **Activate Virtual Environment**:
+    ```bash
+    poetry shell
+    ```
+
+## Project Status
+
 ## Project Structure & Setup
-- [ ] Initialize with `pyproject.toml` (not setup.py)
+- [x] Initialize with `pyproject.toml` (not setup.py)
 - [ ] Create `environment.yml` file with all dependencies
 - [ ] Set up proper directory structure (src/, tests/, data/, docs/, etc.)
 
 ## README Documentation
 - [✅] List full names of all team members
 - [ ] Project aim and research question
-- [ ] Installation instructions
+- [x] Installation instructions
 - [ ] Usage examples with code snippets
 - [ ] Architecture diagram (created with draw.io or similar)
 - [ ] Data download/access instructions
