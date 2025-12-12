@@ -7,24 +7,37 @@ Team Members:
 - Sam Gold
 - Nikhil Poluri
 
-## Installation
+## Setup and Installation
 
-This project uses [Poetry](https://python-poetry.org/) for dependency management.
+This project uses **Conda** for environment management and **pip** for package installation. The code is organized into separate packages within the `packages/` directory.
 
 ### Prerequisites
-- Python ^3.10
-- Poetry
+- **Anaconda or Miniconda**: [Installation Guide](https://docs.anaconda.com/free/miniconda/)
 
-### Setup
+### Installation Steps
 
-1.  **Install Dependencies**:
+1.  **Create Conda Environment**  
+    Create the environment from the `environment.yml` file:
     ```bash
-    poetry install
+    conda env create -f environment.yml
     ```
 
-2.  **Activate Virtual Environment**:
+2.  **Activate Environment**  
     ```bash
-    poetry shell
+    conda activate 5400-final-project
+    ```
+
+3.  **Install Packages in Editable Mode**  
+    Install the project packages using pip. This allows you to edit the code and see changes immediately without reinstalling.
+    ```bash
+    pip install -e packages/data_process
+    pip install -e packages/models
+    ```
+
+4.  **Download Language Models**  
+    This project requires the English spaCy model.
+    ```bash
+    python -m spacy download en_core_web_sm
     ```
 
 ## Running Tests
@@ -75,47 +88,25 @@ pytest
 │       ├── texas_execution_dates.csv
 │       ├── texas_labeled_final_with_NA.csv
 │       └── texas_last_statements.csv
-├── pyproject.toml
+├── environment.yml
+├── packages
+│   ├── data_process
+│   │   ├── data_process
+│   │   │   ├── __init__.py
+│   │   │   ├── texas_collect_last_word.py
+│   │   │   ├── texas_label_clean.py
+│   │   │   ├── text_cleaning.ipynb
+│   │   │   └── wikipedia_scraping.ipynb
+│   │   └── pyproject.toml
+│   └── models
+│       ├── models
+│       │   ├── __init__.py
+│       │   ├── criminal_classifier
+│       │   ├── emotion_model
+│       │   └── lda
+│       └── pyproject.toml
 ├── pytest.ini
 ├── README.md
-├── src
-│   ├── data_process
-│   │   ├── texas_collect_last_word.py
-│   │   ├── texas_label_clean.py
-│   │   ├── text_cleaning.ipynb
-│   │   └── wikipedia_scraping.ipynb
-│   └── models
-│       ├── criminal_classifier
-│       │   ├── main.py
-│       │   ├── model
-│       │   │   ├── __init__.py
-│       │   │   ├── __pycache__
-│       │   │   │   ├── __init__.cpython-312.pyc
-│       │   │   │   └── class_model.cpython-312.pyc
-│       │   │   ├── class_model.py
-│       │   │   ├── eval
-│       │   │   │   ├── __init__.py
-│       │   │   │   ├── __pycache__
-│       │   │   │   │   ├── __init__.cpython-312.pyc
-│       │   │   │   │   └── eval.cpython-312.pyc
-│       │   │   │   └── eval.py
-│       │   │   └── utils
-│       │   │       ├── __init__.py
-│       │   │       ├── __pycache__
-│       │   │       │   ├── __init__.cpython-312.pyc
-│       │   │       │   ├── load_data.cpython-312.pyc
-│       │   │       │   └── visualize.cpython-312.pyc
-│       │   │       ├── load_data.py
-│       │   │       └── visualize.py
-│       │   ├── run_code.txt
-│       │   └── setup.py
-│       ├── emotion_model
-│       │   ├── emotion_analysis.py
-│       │   ├── emotions_anly_oop.ipynb
-│       │   └── sentiment_emotion_anly_raw.ipynb
-│       └── lda
-│           ├── lda_last_words_kgrid.py
-│           └── lda_last_words.py
 └── tests
     └── models
         ├── test_criminal.py
