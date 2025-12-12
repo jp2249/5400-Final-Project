@@ -9,7 +9,7 @@ Team Members:
 
 ## Setup and Installation
 
-This project uses **Conda** for environment management and **pip** for package installation. The code is organized into separate packages within the `packages/` directory.
+This project uses **Conda** for environment management and **pip** for package installation. The code is organized into the `src/` directory.
 
 ### Prerequisites
 - **Anaconda or Miniconda**: [Installation Guide](https://docs.anaconda.com/free/miniconda/)
@@ -28,10 +28,9 @@ This project uses **Conda** for environment management and **pip** for package i
     ```
 
 3.  **Install Packages in Editable Mode**  
-    Install the project packages using pip. This allows you to edit the code and see changes immediately without reinstalling.
+    Install the project in editable mode. This allows you to edit the code and see changes immediately without reinstalling.
     ```bash
-    pip install -e packages/data_process
-    pip install -e packages/models
+    pip install -e .
     ```
 
 4.  **Download Language Models**  
@@ -53,9 +52,7 @@ pytest
 ```text
 .
 ├── data
-│   ├── merged_data
 │   ├── processed_data
-│   │   ├── ~$label_last_words_18th_century.xlsx
 │   │   ├── label_last_words_18th_century.xlsx
 │   │   ├── label_last_words_19th_century.xlsx
 │   │   ├── label_last_words_20th_century.xlsx
@@ -69,44 +66,38 @@ pytest
 │   │   ├── relig_label_last_words_19th_century.xlsx
 │   │   ├── relig_label_last_words_ironic.xlsx
 │   │   ├── relig_label_last_words_notable.xlsx
-│   │   └── relig_label_last_words_pre5_to_17_century.xlsx
+│   │   ├── relig_label_last_words_pre5_to_17_century.xlsx
+│   │   └── train.csv
 │   └── raw_data
 │       ├── last_words_18th_century.csv
 │       ├── last_words_19th_century.csv
 │       ├── last_words_20th_century.csv
 │       ├── last_words_21st_century.csv
+│       ├── last_words_data.csv
 │       ├── last_words_ironic.csv
 │       ├── last_words_notable.csv
 │       ├── last_words_of_the_executed.csv
 │       ├── last_words_pre5_to_17_century.csv
-│       ├── processed
-│       │   ├── test.csv
-│       │   └── train.csv
-│       ├── raw
-│       │   └── last_words_data.csv
 │       ├── texas_execution_dates_with_statements.csv
 │       ├── texas_execution_dates.csv
 │       ├── texas_labeled_final_with_NA.csv
 │       └── texas_last_statements.csv
 ├── environment.yml
-├── packages
-│   ├── data_process
-│   │   ├── data_process
-│   │   │   ├── __init__.py
-│   │   │   ├── texas_collect_last_word.py
-│   │   │   ├── texas_label_clean.py
-│   │   │   ├── text_cleaning.ipynb
-│   │   │   └── wikipedia_scraping.ipynb
-│   │   └── pyproject.toml
-│   └── models
-│       ├── models
-│       │   ├── __init__.py
-│       │   ├── criminal_classifier
-│       │   ├── emotion_model
-│       │   └── lda
-│       └── pyproject.toml
+├── pyproject.toml
 ├── pytest.ini
 ├── README.md
+├── src
+│   ├── data_process
+│   │   ├── __init__.py
+│   │   ├── texas_collect_last_word.py
+│   │   ├── texas_label_clean.py
+│   │   ├── text_cleaning.ipynb
+│   │   └── wikipedia_scraping.ipynb
+│   └── models
+│       ├── __init__.py
+│       ├── criminal_classifier
+│       ├── emotion_model
+│       └── lda
 └── tests
     └── models
         ├── test_criminal.py
@@ -132,7 +123,7 @@ pytest
 ## Data Management
 - [ ] Set up data storage (GitHub LFS or Google drive link)
 - [x] Create data download script if possible
-- [x] Implement data preprocessing pipeline
+- [ ] Implement data preprocessing pipeline
 - [x] Store preprocessed data in folder
 - [ ] Document data sources and preprocessing steps
 - [ ] NO data pushed to GitHub
@@ -147,7 +138,7 @@ pytest
 ## Testing Suite
 - [x] Create `tests/` directory with pytest structure
 - [x] Set separate test dataset
-- [x] Write tests for model components
+- [ ] Write tests for model components
 - [ ] All tests pass
 
 ## Sentiment Analysis Specific
