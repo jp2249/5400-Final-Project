@@ -61,6 +61,28 @@ To run the test suite, execute the following command from the root directory:
 pytest
 ```
 
+## Running the Criminal Identifier model
+
+To run the entire workflow on the original data, execute the following command from the root directory:
+
+```bash
+python src/models/criminal_classifier/main.py
+```
+
+To run the model on different text data, pass a folder using the `-f` argument:
+
+```bash
+python src/models/criminal_classifier/main.py -f /path/to/data/folder
+```
+
+*Note:* If using a custom data folder, the input dataset must have a column named `quote` containing the text data and `is_criminal` containing the binary classification label.
+
+To run the unit tests (pytest) on this model, execture the following command from the root directory:
+
+```bash
+pytest tests/models/test_criminal.py
+```
+
 ## Tree of the project
 
 ```text

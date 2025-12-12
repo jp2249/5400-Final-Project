@@ -32,10 +32,10 @@ def plot_features(class_identifier, num_feat, label):
     ax.grid(axis = 'x')
     plt.tight_layout()
 
-    # save image
-    filepath = 'feature_importance.png'
-    typepath = "plots/" + label + "_"
-    plt.savefig(typepath + filepath, dpi = 300, bbox_inches = 'tight')
+    # save image, if want
+    # filepath = 'feature_importance.png'
+    # typepath = "plots/" + label + "_"
+    # plt.savefig(typepath + filepath, dpi = 300, bbox_inches = 'tight')
     plt.show()
     
 # utility function to plot confusion matrix 
@@ -56,6 +56,6 @@ def correlation_matrix(class_identifier, test_df):
     ax.set_ylabel('True Label', fontsize = 12)
     plt.tight_layout()
 
-    # save image
-    plt.savefig('plots/confusion_matrix.png', dpi = 300, bbox_inches = 'tight')
+    # save image, if want
+    # plt.savefig('plots/confusion_matrix.png', dpi = 300, bbox_inches = 'tight')
     plt.show()
