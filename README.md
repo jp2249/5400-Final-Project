@@ -1,3 +1,17 @@
+## Check List for Cleaning Repo:
+
+- [ ] Change all file into .csv
+- [ ] Cleaned Single file for Wiki
+- [ ] Cleaned Single file for Texas
+- [ ] Single file for merging Wiki and Texas
+  
+- [ ] Remove unused *.csv and *.xlsx
+- [ ] Decide Google drive or Git LFS
+  
+- [ ] Check each model for any modification
+- [ ] Check each model still works or not
+
+
 # 5400-Final-Project
 
 Team Members:
@@ -90,6 +104,7 @@ pytest
 │   ├── data_process
 │   │   ├── __init__.py
 │   │   ├── texas_collect_last_word.py
+│   │   ├── texas_data_processing.ipynb
 │   │   ├── texas_label_clean.py
 │   │   ├── text_cleaning.ipynb
 │   │   └── wikipedia_scraping.ipynb
@@ -99,9 +114,12 @@ pytest
 │       ├── emotion_model
 │       └── lda
 └── tests
+    ├── data
+    │   └── test.csv
     └── models
         ├── test_criminal.py
-        └── test_emotion.py
+        ├── test_emotion.py
+        └── test_lda.py
 ```
 
 ## Project Status
