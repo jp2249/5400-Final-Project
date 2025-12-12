@@ -166,3 +166,6 @@ pytest
 - [ ] Training pipeline
 - [ ] Evaluation metrics (accuracy, F1, precision, recall, confusion matrix)
 - [ ] Results visualization and analysis
+
+
+Last Words Data Link: https://drive.google.com/file/d/1bevcP-T7q_yBcauPwTEWG77PcwIanhBY/view?usp=drive_link
