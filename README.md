@@ -37,6 +37,7 @@ pytest
 
 ## Tree of the project
 
+```text
 .
 ├── data
 │   ├── merged_data
@@ -119,7 +120,7 @@ pytest
     └── models
         ├── test_criminal.py
         └── test_emotion.py
-
+```
 
 ## Project Status
 
@@ -150,7 +151,7 @@ pytest
 - [ ] Implement sentiment analysis model(s)
 - [ ] Add comments to all functions, methods, and classes
 - [ ] Implement logging at key points (data loading, training, evaluation)
-- [ ] Follow PEP 8 standards using pylint (clean structue)
+- [ ] Follow PEP 8 standards using pylint (clean structure)
 
 ## Testing Suite
 - [x] Create `tests/` directory with pytest structure
