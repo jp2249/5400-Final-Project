@@ -1,8 +1,12 @@
 [project]
 name = "5400-final-project"
 version = "0.1.0"
-description = "Combined data processing and modeling package"
+description = "Combined data processing and modeling package. Files used to perform TF-IDF weighting and logistic regression on text data to predict if the text was spoken by a labeled criminal or not."
+readme = "README.md"
 requires-python = ">=3.10"
+authors = [
+    {name = "DSAN 5400 Project Group", email = "sg1951@georgetown.edu"}
+]
 dependencies = [
     "pandas",
     "numpy",
@@ -16,10 +20,18 @@ dependencies = [
     "matplotlib"
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "flake8",
+    "autopep8"
+]
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["src"]
-include = ["*"]
+where = ["."]
+include = ["criminal_classifier*", "data_process*", "lda*"]
+namespaces = false

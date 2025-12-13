@@ -1,17 +1,3 @@
-## Check List for Cleaning Repo:
-
-- [ ] Change all file into .csv
-- [ ] Cleaned Single file for Wiki
-- [ ] Cleaned Single file for Texas
-- [ ] Single file for merging Wiki and Texas
-  
-- [ ] Remove unused *.csv and *.xlsx
-- [ ] Decide Google drive or Git LFS
-  
-- [ ] Check each model for any modification
-- [ ] Check each model still works or not
-
-
 # 5400-Final-Project
 
 Team Members:
@@ -21,14 +7,55 @@ Team Members:
 - Sam Gold
 - Nikhil Poluri
 
-## Setup and Installation
+# Project aim and research questions
 
-This project uses **Conda** for environment management and **pip** for package installation. The code is organized into the `src/` directory.
+- How Do Humans comprehend Death?
+- What do people say in their last words?
+- If you knew that you were going to die, what would you say?
+- What is your last word? Who would you think of?
 
-### Prerequisites
+# Tree of the whole project
+
+```text
+.
+├── criminal_classifier
+│   ├── main.py
+│   ├── model
+│   └── run_code.txt
+├── data
+│   ├── processed_data
+│   └── raw_data
+├── data_process
+│   ├── __init__.py
+│   ├── texas_data_processing.ipynb
+│   ├── texas_data_processing.py
+│   ├── wikipedia_scraping.ipynb
+│   └── wikipedia_scraping.py
+├── Emotion-Model
+│   ├── __init__.py
+│   └── emotion_analysis.py
+├── environment.yml
+├── lda
+│   ├── __init__.py
+│   ├── lda_last_words_kgrid.py
+│   └── lda_last_words.py
+├── pyproject.toml
+├── pytest.ini
+├── README.html
+├── README.md
+└── tests
+    ├── data
+    └── models
+```
+
+# Setup and Installation
+
+This project uses **Conda** for environment management and **pip** for package installation. The code is organized in the **root** directory.
+
+## Prerequisites
 - **Anaconda or Miniconda**: [Installation Guide](https://docs.anaconda.com/free/miniconda/)
 
-### Installation Steps
+## Installation Steps
 
 1.  **Create Conda Environment**  
     Create the environment from the `environment.yml` file:
@@ -53,26 +80,68 @@ This project uses **Conda** for environment management and **pip** for package i
     python -m spacy download en_core_web_sm
     ```
 
-## Running Tests
+# Data Processing
 
-To run the test suite, execute the following command from the root directory:
-
+## Collect raw data from Wikipedia and Texas execution data
 ```bash
-pytest
+python data_process/wikipedia_scraping.py
+python data_process/texas_data_processing.py
 ```
+
+## Access to processed data
+
+Since the raw data requires manual cleaning and manual labeling, we provide the processed data here:
+
+https://drive.google.com/file/d/1bevcP-T7q_yBcauPwTEWG77PcwIanhBY/view?usp=drive_link
+
+Place the processed data in the `data/processed_data` directory.
+
+
+
+# The Criminal Identifier Model
+
+## Model description
+
+The Criminal Identifier model is a binary classification system designed to determine whether a given quote belongs to a criminal or a non-criminal. It utilizes natural language processing (NLP) techniques to analyze the text and a machine learning classifier to make predictions.
+
+### Model structure
+
+The model pipeline consists of the following stages:
+
+1.  **Preprocessing**:
+    -   Raw data is cleaned and split into training and testing sets.
+    -   The `train_test_df` function handles this, saving processed files to `data/processed_data` (train) and `tests/data` (test).
+
+2.  **Feature Extraction**:
+    -   **TF-IDF Vectorizer**: Converts text data into numerical features.
+        -   `ngram_range`: (1, 2) (Unigrams and Bigrams)
+        -   `max_features`: 5000
+        -   `stop_words`: 'english'
+
+3.  **Classification**:
+    -   **Logistic Regression**: A linear model used for binary classification.
+        -   Penalty: L2 regularization
+        -   Optimization: `max_iter=1000`
+
+4.  **Evaluation**:
+    -   The model is evaluated using standard metrics: **Accuracy**, **Precision**, **Recall**, and **F1 Score**.
+
+5.  **Visualization and Analysis**:
+    -   **Top Features**: Identifies the most significant words/phrases for both "criminal" and "non-criminal" classes.
+    -   **Correlation Matrix**: Visualizes relationships between features.
 
 ## Running the Criminal Identifier model
 
 To run the entire workflow on the original data, execute the following command from the root directory:
 
 ```bash
-python src/models/criminal_classifier/main.py
+python criminal_classifier/main.py
 ```
 
 To run the model on different text data, pass a folder using the `-f` argument:
 
 ```bash
-python src/models/criminal_classifier/main.py -f /path/to/data/folder
+python criminal_classifier/main.py -f /path/to/data/folder
 ```
 
 *Note:* If using a custom data folder, the input dataset must have a column named `quote` containing the text data and `is_criminal` containing the binary classification label.
@@ -84,8 +153,8 @@ pytest tests/models/test_criminal.py
 
 ```
 
-# Emotion Analysis Project
 
+# Emotion Analysis Model
 
 ## Structure
 
@@ -97,27 +166,27 @@ pytest tests/models/test_criminal.py
 
 ### Basic emotion analysis:
 ```bash
-python emotion_analysis.py -f last_words_data_clean.csv -t quote -d date -o output.csv
+python Emotion-Model/emotion_analysis.py -f data/processed_data/last_words_data_clean.csv -t quote -d date -o data/processed_data/emotion_output.csv
 ```
 
 ### With specific emotion (e.g., remorse):
 ```bash
-python emotion_analysis.py -f last_words_data_clean.csv -t quote -d date -e remorse -o output.csv
+python Emotion-Model/emotion_analysis.py -f data/processed_data/last_words_data_clean.csv -t quote -d date -e remorse -o data/processed_data/emotion_output.csv
 ```
 
 ### Generate visualizations:
 ```bash
-python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --wordcloud
-python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --top-emotions
-python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --composition
-python emotion_analysis.py -f output.csv -t quote -d date -e remorse --skip-analysis --emotion-hist
-python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --all-plots
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date --skip-analysis --wordcloud
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date --skip-analysis --top-emotions
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date --skip-analysis --composition
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date -e remorse --skip-analysis --emotion-hist
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date --skip-analysis --all-plots
 ```
 
 ### Filter by subset:
 ```bash
-python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --wordcloud --subset criminal
-python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --top-emotions --subset 1900s
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date --skip-analysis --wordcloud --subset criminal
+python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.csv -t quote -d date --skip-analysis --top-emotions --subset 1900s
 ```
 
 ## Arguments
@@ -133,85 +202,64 @@ python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --top-
 | `--skip-analysis` | Skip emotion analysis (use existing columns) |
 | `--wordcloud`, `--top-emotions`, `--composition`, `--emotion-hist`, `--all-plots` | Visualization options |
 
-## Tree of the project
 
-```text
-.
-├── data
-│   ├── processed_data
-│   │   ├── label_last_words_18th_century.xlsx
-│   │   ├── label_last_words_19th_century.xlsx
-│   │   ├── label_last_words_20th_century.xlsx
-│   │   ├── label_last_words_21st_century.xlsx
-│   │   ├── label_last_words_ironic.xlsx
-│   │   ├── label_last_words_notable.xlsx
-│   │   ├── label_last_words_pre5_to_17_century.xlsx
-│   │   ├── last_words_data_with_emotion (1).csv
-│   │   ├── last_words_data.csv
-│   │   ├── last_words_of_the_executed_labeled.csv
-│   │   ├── relig_label_last_words_19th_century.xlsx
-│   │   ├── relig_label_last_words_ironic.xlsx
-│   │   ├── relig_label_last_words_notable.xlsx
-│   │   ├── relig_label_last_words_pre5_to_17_century.xlsx
-│   │   └── train.csv
-│   └── raw_data
-│       ├── last_words_18th_century.csv
-│       ├── last_words_19th_century.csv
-│       ├── last_words_20th_century.csv
-│       ├── last_words_21st_century.csv
-│       ├── last_words_data.csv
-│       ├── last_words_ironic.csv
-│       ├── last_words_notable.csv
-│       ├── last_words_of_the_executed.csv
-│       ├── last_words_pre5_to_17_century.csv
-│       ├── texas_execution_dates_with_statements.csv
-│       ├── texas_execution_dates.csv
-│       ├── texas_labeled_final_with_NA.csv
-│       └── texas_last_statements.csv
-├── environment.yml
-├── pyproject.toml
-├── pytest.ini
-├── README.md
-├── src
-│   ├── data_process
-│   │   ├── __init__.py
-│   │   ├── texas_collect_last_word.py
-│   │   ├── texas_data_processing.ipynb
-│   │   ├── texas_label_clean.py
-│   │   ├── text_cleaning.ipynb
-│   │   └── wikipedia_scraping.ipynb
-│   └── models
-│       ├── __init__.py
-│       ├── criminal_classifier
-│       ├── emotion_model
-│       └── lda
-└── tests
-    ├── data
-    │   └── test.csv
-    └── models
-        ├── test_criminal.py
-        ├── test_emotion.py
-        └── test_lda.py
+# LDA Topic Modeling
+
+To uncover latent themes within the last statements, we employ Latent Dirichlet Allocation (LDA). This module provides two scripts for topic modeling:
+
+## Basic LDA Pipeline (`lda/lda_last_words.py`)
+
+This script performs a standard LDA analysis on the entire dataset.
+
+**Pipeline Steps:**
+1.  **Preprocessing**: Tokenization, lemmatization, and stopword removal using spaCy and NLTK.
+2.  **Bigram Generation**: Automatically detects and forms common phrases (e.g., "death row", "heavenly father").
+3.  **Topic Modeling**: Trains LDA models with varying numbers of topics (K=4, 6, 8).
+4.  **Coherence Tuning**: Selects the best K based on Coherence Score (c_v).
+
+**Usage:**
+```bash
+python lda/lda_last_words.py --csv data/processed_data/last_words_data_clean.csv
 ```
 
-## Project Status
+## Advanced Segmented Analysis (`lda/lda_last_words_kgrid.py`)
+
+This script performs a more granular analysis by running LDA on specific subsets of the data (e.g., per century, by criminal status) with adaptive hyperparameter tuning.
+
+**Features:**
+-   **Automatic Year Extraction**: Parses diverse date formats to bucket statements by century.
+-   **Adaptive K-Grid**: Dynamically adjusts the grid of K values (number of topics) based on the size of the subset (number of documents) to avoid overfitting small groups.
+-   **Segmented Execution**: Automatically runs separate models for:
+    -   The entire dataset
+    -   Each Century (17th - 21st)
+    -   Criminal vs. Non-Criminal
+    -   Religious vs. Non-Religious
+
+**Usage:**
+```bash
+python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data_clean.csv
+```
+
+
+
+# Project Status
 
 ## Project Structure & Setup
 - [x] Initialize with `pyproject.toml` (not setup.py)
-- [ ] Create `environment.yml` file with all dependencies
+- [x] Create `environment.yml` file with all dependencies
 - [x] Set up proper directory structure (src/, tests/, data/, docs/, etc.)
 
 ## README Documentation
 - [x] List full names of all team members
-- [ ] Project aim and research question
+- [x] Project aim and research question
 - [x] Installation instructions
-- [ ] Usage examples with code snippets
+- [x] Usage examples with code snippets
 - [ ] Architecture diagram (created with draw.io or similar)
-- [ ] Data download/access instructions
-- [ ] Dependencies and environment setup guide
+- [x] Data download/access instructions
+- [x] Dependencies and environment setup guide
 
 ## Data Management
-- [ ] Set up data storage (GitHub LFS or Google drive link)
+- [x] Set up data storage (GitHub LFS or Google drive link)
 - [x] Create data download script if possible
 - [ ] Implement data preprocessing pipeline
 - [x] Store preprocessed data in folder
@@ -239,5 +287,3 @@ python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --top-
 - [ ] Evaluation metrics (accuracy, F1, precision, recall, confusion matrix)
 - [ ] Results visualization and analysis
 
-
-Last Words Data Link: https://drive.google.com/file/d/1bevcP-T7q_yBcauPwTEWG77PcwIanhBY/view?usp=drive_link

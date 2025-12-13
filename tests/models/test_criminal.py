@@ -1,7 +1,7 @@
 # need to test the other helper functions as well?
-from models.criminal_classifier.model.class_model import CriminalIdentifier
-from models.criminal_classifier.model.eval.eval import evaluate
-from models.criminal_classifier.model.utils.load_data import csv_df, train_test_df
+from criminal_classifier.model.class_model import CriminalIdentifier
+from criminal_classifier.model.eval.eval import evaluate
+from criminal_classifier.model.utils.load_data import csv_df, train_test_df
 import numpy as np
 import pandas as pd
 import pytest
