@@ -148,11 +148,11 @@ python criminal_classifier/main.py -f /path/to/data/folder
 
 *Note:* If using a custom data folder, the input dataset must have a column named `quote` containing the text data and `is_criminal` containing the binary classification label.
 
-To run the unit tests (pytest) on this model, execture the following command from the root directory:
+## Running Tests
+To run the full test suite (covering Criminal Identifier, Emotion Analysis, and LDA), execute the following command from the root directory:
 
 ```bash
-pytest tests/models/test_criminal.py
-
+python -m pytest tests/
 ```
 
 

@@ -31,22 +31,25 @@ def test_data():
         'is_criminal': [0, 1, 0]
     })
 
-# testing that the training function works
-def test_training(train_data):
-    model = CriminalIdentifier()
-    model.train_df(train_data)
+class TestCriminalIdentifier:
+    """Test suite for CriminalIdentifier model"""
+    
+    # testing that the training function works
+    def test_training(self, train_data):
+        model = CriminalIdentifier()
+        model.train_df(train_data)
 
-    # two classes for criminal or not
-    assert len(model.classes_) == 2
+        # two classes for criminal or not
+        assert len(model.classes_) == 2
 
-# testing tha the predictions work
-def test_predictions(train_data, test_data):
-    model = CriminalIdentifier()
-    model.train_df(train_data)
-    probs = model.pred_probabilities(test_data)
+    # testing tha the predictions work
+    def test_predictions(self, train_data, test_data):
+        model = CriminalIdentifier()
+        model.train_df(train_data)
+        probs = model.pred_probabilities(test_data)
 
-    # checking probablities are outputting correctly
-    # for the right number of quotes
-    # sum of pair of probabilities should equal to 1
-    assert probs.shape == (len(test_data), 2)
-    assert np.allclose(probs.sum(axis = 1), 1.0)
+        # checking probablities are outputting correctly
+        # for the right number of quotes
+        # sum of pair of probabilities should equal to 1
+        assert probs.shape == (len(test_data), 2)
+        assert np.allclose(probs.sum(axis = 1), 1.0)
