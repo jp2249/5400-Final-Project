@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description = "Load and preprocess last words data")
     # add flag to pass through different raw files to apply project on 
     # call by python main.py -f /data/path
-    parser.add_argument("-f", "--folder", default = "data/raw_data", help = "Path to raw data folder")
+    parser.add_argument("-f", "--folder", default = "data/processed_data", help = "Path to raw data folder")
     args = parser.parse_args()
     
     main(args.folder)

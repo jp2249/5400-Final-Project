@@ -1,6 +1,7 @@
 # 5400-Final-Project
 
-Team Members:
+### Team Members:
+
 - Jeffrey Pinarchick
 - Tyler McCormick
 - Younghoon Kim
@@ -53,6 +54,7 @@ Team Members:
 This project uses **Conda** for environment management and **pip** for package installation. The code is organized in the **root** directory.
 
 ## Prerequisites
+
 - **Anaconda or Miniconda**: [Installation Guide](https://docs.anaconda.com/free/miniconda/)
 
 ## Installation Steps
@@ -166,12 +168,12 @@ pytest tests/models/test_criminal.py
 
 ### Basic emotion analysis:
 ```bash
-python Emotion-Model/emotion_analysis.py -f data/processed_data/last_words_data_clean.csv -t quote -d date -o data/processed_data/emotion_output.csv
+python Emotion-Model/emotion_analysis.py -f data/processed_data/last_words_data.csv -t quote -d date -o data/processed_data/emotion_output.csv
 ```
 
 ### With specific emotion (e.g., remorse):
 ```bash
-python Emotion-Model/emotion_analysis.py -f data/processed_data/last_words_data_clean.csv -t quote -d date -e remorse -o data/processed_data/emotion_output.csv
+python Emotion-Model/emotion_analysis.py -f data/processed_data/last_words_data.csv -t quote -d date -e remorse -o data/processed_data/emotion_output.csv
 ```
 
 ### Generate visualizations:
@@ -219,7 +221,7 @@ This script performs a standard LDA analysis on the entire dataset.
 
 **Usage:**
 ```bash
-python lda/lda_last_words.py --csv data/processed_data/last_words_data_clean.csv
+python lda/lda_last_words.py --csv data/processed_data/last_words_data.csv
 ```
 
 ## Advanced Segmented Analysis (`lda/lda_last_words_kgrid.py`)
@@ -237,7 +239,7 @@ This script performs a more granular analysis by running LDA on specific subsets
 
 **Usage:**
 ```bash
-python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data_clean.csv
+python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data.csv
 ```
 
 
@@ -263,8 +265,8 @@ python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data_cle
 - [x] Create data download script if possible
 - [ ] Implement data preprocessing pipeline
 - [x] Store preprocessed data in folder
-- [ ] Document data sources and preprocessing steps
-- [ ] NO data pushed to GitHub
+- [x] Document data sources and preprocessing steps
+- [x] NO data pushed to GitHub
 
 ## Code Implementation
 - [ ] Design OOP (classes for model, preprocessing, evaluation, etc.)
@@ -279,11 +281,4 @@ python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data_cle
 - [ ] Write tests for model components
 - [ ] All tests pass
 
-## Sentiment Analysis Specific
-- [ ] Data loading and text preprocessing (tokenization + cleaning)
-- [ ] Embeddings
-- [ ] Model implementation (baseline + advanced models)
-- [ ] Training pipeline
-- [ ] Evaluation metrics (accuracy, F1, precision, recall, confusion matrix)
-- [ ] Results visualization and analysis
 
