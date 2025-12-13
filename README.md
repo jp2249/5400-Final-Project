@@ -81,7 +81,57 @@ To run the unit tests (pytest) on this model, execture the following command fro
 
 ```bash
 pytest tests/models/test_criminal.py
+
 ```
+
+# Emotion Analysis Project
+
+
+## Structure
+
+- `EmotionAnalyzer`: Runs emotion classification using HuggingFace transformers
+- `PlotAnalyzer`: Base class for data preparation and filtering
+- `WordCloudGenerator`, `CompositionChart`, `TopEmotionsChart`, `EmotionHist`: Visualization classes
+
+## Usage
+
+### Basic emotion analysis:
+```bash
+python emotion_analysis.py -f last_words_data_clean.csv -t quote -d date -o output.csv
+```
+
+### With specific emotion (e.g., remorse):
+```bash
+python emotion_analysis.py -f last_words_data_clean.csv -t quote -d date -e remorse -o output.csv
+```
+
+### Generate visualizations:
+```bash
+python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --wordcloud
+python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --top-emotions
+python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --composition
+python emotion_analysis.py -f output.csv -t quote -d date -e remorse --skip-analysis --emotion-hist
+python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --all-plots
+```
+
+### Filter by subset:
+```bash
+python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --wordcloud --subset criminal
+python emotion_analysis.py -f output.csv -t quote -d date --skip-analysis --top-emotions --subset 1900s
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `-f`, `--file` | Path to input CSV file (required) |
+| `-t`, `--text_col` | Name of text column (required) |
+| `-d`, `--date_col` | Name of date column (required) |
+| `-o`, `--output` | Path to save processed CSV |
+| `-e`, `--emotion` | Specific emotion to analyze (e.g., remorse, joy) |
+| `--subset` | Filter: criminal, not_criminal, expected, not_expected, religious, not_religious, pre_1700, 1700s, 1800s, 1900s, 2000s |
+| `--skip-analysis` | Skip emotion analysis (use existing columns) |
+| `--wordcloud`, `--top-emotions`, `--composition`, `--emotion-hist`, `--all-plots` | Visualization options |
 
 ## Tree of the project
 
