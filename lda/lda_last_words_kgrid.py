@@ -199,16 +199,16 @@ def main():
         print("Run: python -m spacy download en_core_web_sm"); sys.exit(1)
 
     # Run blocks
-    run_lda_block(df,"ALL", nlp, stop_words, outdir=".")
+    run_lda_block(df,"ALL", nlp, stop_words, outdir="data/processed_data")
     
     for b in ["21st","20th","19th","18th","17th","pre 17th"]:
-        run_lda_block(df[df["century_bucket"]==b],f"century={b.replace(' ','_')}", nlp, stop_words, outdir=".")
+        run_lda_block(df[df["century_bucket"]==b],f"century={b.replace(' ','_')}", nlp, stop_words, outdir="data/processed_data")
         
     for label in ["is_religious","is_criminal"]:
         if label in df.columns:
             for val,sub in df.groupby(label):
                 tag=f"{label}={val if not pd.isna(val) else 'NA'}"
-                run_lda_block(sub,tag, nlp, stop_words, outdir=".")
+                run_lda_block(sub,tag, nlp, stop_words, outdir="data/processed_data")
                 
     print("Done.")
 

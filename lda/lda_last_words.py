@@ -169,7 +169,7 @@ def main():
 
     try:
         df_topics = run_lda_analysis(df)
-        out_path = "last_words_with_topics.csv"
+        out_path = os.path.join("data", "processed_data", "last_words_with_topics.csv")
         df_topics.to_csv(out_path, index=False)
         print(f"\nSaved dataframe with topic proportions to: {out_path}")
         print("Done.")
