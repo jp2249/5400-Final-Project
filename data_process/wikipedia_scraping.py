@@ -1,280 +1,136 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 import pandas as pd
 import numpy as np
 import wikipediaapi
 import re
+import argparse
+import os
+import sys
 
+class WikipediaLastWordsScraper:
+    """
+    A class to scrape 'List of last words' pages from Wikipedia and parse them into a DataFrame.
+    """
+    def __init__(self, output_dir="data/raw_data"):
+        self.wiki = wikipediaapi.Wikipedia(
+            user_agent='Tyler/DSAN5400_project',
+            language='en'
+        )
+        self.output_dir = output_dir
+        os.makedirs(self.output_dir, exist_ok=True)
 
-# In[90]:
+    def parse_text(self, text):
+        """Parses the raw text sections from Wikipedia into structured entries."""
+        entries = []
 
+        def parse_entry(entry_text):
+            lines = [l.strip() for l in entry_text.split('\n') if l.strip()]
 
-import wikipediaapi
+            if len(lines) < 2:
+                return None
+            
+            rest = ' '.join(lines[1:]).lstrip('—-–').strip()
+            date = re.search(r'\(([^)]*(?:\d{4}|c\.\s*\d+|(?:\d+th|c\.\s*\d+)\s*century)(?:\s*(?:BC|AD))?[^)]*)\)', rest)
+            name = rest.split(',')[0]
 
-wiki = wikipediaapi.Wikipedia(
-    user_agent='Tyler/DSAN5400_project',
-    language='en'
-)
+            if date:
+                before_date = rest[:date.start()].strip()
+                title = before_date.split(',', 1)[1].strip() if ',' in before_date else ""
+                context = rest[date.end():].strip(', .')
+            else:
+                title = rest.split(',', 1)[1].strip() if ',' in rest else ""
+                context = ""
+            
+            return {
+                'name': name,
+                'title': title,
+                'quote': lines[0].strip('"''"'),
+                'date': date.group(1) if date else "",
+                'context': context
+            }
 
-page = wiki.page('List of last words')
+        blocks = re.split(r'\n(?=[""""])', text)
 
-if page.exists():
+        for block in blocks:
+            if block.strip():
+                parsed = parse_entry(block)
+                if parsed:
+                    entries.append(parsed)
 
-    for section in page.sections:
-        print(f"Section: {section.title}")
-        print(f"Level: {section.level}")  
+        return pd.DataFrame(entries)
+
+    def scrape_century(self, century_name, page_title, limit_sections=None):
+        """Scrapes a specific century page."""
+        print(f"Scraping {century_name}...")
+        page = self.wiki.page(page_title)
         
-        for subsection in section.sections:
-            print(f"  Subsection: {subsection.title}")
+        if not page.exists():
+            print(f"Page '{page_title}' does not exist.")
+            return
 
-
-# # 21st Century Last Words Scraping
-
-# In[91]:
-
-
-page = wiki.page('List of last words (21st century)')
-
-if page.exists():
-
-    for section in page.sections:
-        print(f"Section: {section.title}")
-        print(f"Level: {section.level}")  
-        print("-" * 50)
+        text = ""
+        sections_to_scrape = page.sections[:limit_sections] if limit_sections else page.sections
+        for section in sections_to_scrape:
+            text += section.text
         
-        for subsection in section.sections:
-            print(f"  Subsection: {subsection.title}")
-
-
-
-# In[92]:
-
-
-text = ""
-page = wiki.page('List of last words (21st century)')
-if page.exists():
-
-    for section in page.sections[:3]:  
-        text += section.text
+        df = self.parse_text(text)
+        print(f"Collected {len(df)} records for {century_name}.")
         
+        filename = f"last_words_{century_name.replace(' ', '_').lower()}.csv"
+        path = os.path.join(self.output_dir, filename)
+        df.to_csv(path, index=False)
+        print(f"Saved to {path}")
 
-
-# In[131]:
-
-
-def parse_text(text):
-    entries = []
-
-    def parse_entry(entry_text):
-        lines = [l.strip() for l in entry_text.split('\n') if l.strip()]
-
-        if len(lines) < 2:
-            return None
+    def scrape_others(self):
+        """Scrapes the main list page for pre-17th century, ironic, and notable last words."""
+        print("Scraping Other sections...")
+        page = self.wiki.page('List of last words')
         
-        rest = ' '.join(lines[1:]).lstrip('—-–').strip()
-        date = re.search(r'\(([^)]*(?:\d{4}|c\.\s*\d+|(?:\d+th|c\.\s*\d+)\s*century)(?:\s*(?:BC|AD))?[^)]*)\)', rest)
-        name = rest.split(',')[0]
+        if not page.exists():
+            print("Main 'List of last words' page not found.")
+            return
 
-        if date:
-            before_date = rest[:date.start()].strip()
-            title = before_date.split(',', 1)[1].strip() if ',' in before_date else ""
-            context = rest[date.end():].strip(', .')
-        else:
-            title = rest.split(',', 1)[1].strip() if ',' in rest else ""
-            context = ""
+        # Pre 17th Century
+        chronological_section = page.sections[0]
+        text_pre5_to_17 = ""
+        for subsection in chronological_section.sections[:5]:
+            text_pre5_to_17 += subsection.text
         
-        return {
-            'name': name,
-            'title': title,
-            'quote': lines[0].strip('"''"'),
-            'date': date.group(1) if date else "",
-            'context': context
-        }
-
-    blocks = re.split(r'\n(?=[""""])', text)
-
-    for block in blocks:
-        if block.strip():
-            parsed = parse_entry(block)
-            if parsed:
-                entries.append(parsed)
-
-    return pd.DataFrame(entries)
-
-df = parse_text(text)
-
-
-# In[94]:
-
-
-df.shape
-
-
-# In[95]:
-
-
-df.to_csv('data/raw_data/last_words_21st_century.csv', index=False)
-
-
-# # 20th
-
-# In[96]:
-
-
-page = wiki.page('List of last words (20th century)')
-
-if page.exists():
-
-    for section in page.sections:
-        print(f"Section: {section.title}")
-        print(f"Level: {section.level}")  
-        print("-" * 50)
-        
-        for subsection in section.sections:
-            print(f"  Subsection: {subsection.title}")
-
-
-# In[97]:
-
-
-text_20 = ""
-page = wiki.page('List of last words (20th century)')
-if page.exists():
-
-    for section in page.sections[:10]:  
-        text_20 += section.text
-        
-
-
-# In[98]:
-
-
-print(len(text_20))
-
-
-# In[99]:
-
-
-df = parse_text(text_20)
-
-
-# In[100]:
-
-
-df.shape
-
-
-# In[101]:
-
-
-df.to_csv('data/raw_data/last_words_20th_century.csv', index=False)
-
-
-# # 19th
-
-# In[102]:
-
-
-page = wiki.page('List of last words (19th century)')
-
-if page.exists():
-
-    for section in page.sections:
-        print(f"Section: {section.title}")
-        print(f"Level: {section.level}")  
-        print("-" * 50)
-        
-        for subsection in section.sections:
-            print(f"  Subsection: {subsection.title}")
-
-
-# In[103]:
-
-
-text_19 = ""
-page = wiki.page('List of last words (19th century)')
-if page.exists():
-
-    for section in page.sections[:10]:  
-        text_19 += section.text
-
-df = parse_text(text_19)
-
-df.to_csv('data/raw_data/last_words_19th_century.csv', index=False)
-
-
-# # 18th
-
-# In[104]:
-
-
-page = wiki.page('List of last words (18th century)')
-
-if page.exists():
-
-    for section in page.sections:
-        print(f"Section: {section.title}")
-        print(f"Level: {section.level}")  
-        print("-" * 50)
-        
-        for subsection in section.sections:
-            print(f"  Subsection: {subsection.title}")
-
-
-# In[105]:
-
-
-text_18 = ""
-page = wiki.page('List of last words (18th century)')
-if page.exists():
-
-    for section in page.sections[:10]:  
-        text_18 += section.text
-
-df = parse_text(text_18)
-
-df.to_csv('data/raw_data/last_words_18th_century.csv', index=False)
-
-
-# # Other
-
-# In[132]:
-
-
-page = wiki.page('List of last words')
-
-if page.exists():
-    chronological_section = page.sections[0]
-    text_pre5_to_17 = ""
-    for subsection in chronological_section.sections[:5]:
-        text_pre5_to_17 += subsection.text
-    
-    text_ironic = page.sections[1].text
-    text_notable = page.sections[2].text
-
-
-# In[133]:
-
-
-df_pre5_to_17 = parse_text(text_pre5_to_17)
-df_ironic = parse_text(text_ironic)
-df_notable = parse_text(text_notable)
-
-
-# In[136]:
-
-
-df_notable.tail()
-
-
-# In[137]:
-
-
-df_pre5_to_17.to_csv('data/raw_data/last_words_pre5_to_17_century.csv', index=False)
-df_ironic.to_csv('data/raw_data/last_words_ironic.csv', index=False)
-df_notable.to_csv('data/raw_data/last_words_notable.csv', index=False)
-
+        df_pre = self.parse_text(text_pre5_to_17)
+        self._save_df(df_pre, "last_words_pre5_to_17_century.csv")
+
+        # Ironic
+        if len(page.sections) > 1:
+            text_ironic = page.sections[1].text
+            df_ironic = self.parse_text(text_ironic)
+            self._save_df(df_ironic, "last_words_ironic.csv")
+
+        # Notable
+        if len(page.sections) > 2:
+            text_notable = page.sections[2].text
+            df_notable = self.parse_text(text_notable)
+            self._save_df(df_notable, "last_words_notable.csv")
+
+    def _save_df(self, df, filename):
+        path = os.path.join(self.output_dir, filename)
+        df.to_csv(path, index=False)
+        print(f"Saved {len(df)} records to {path}")
+
+    def run(self):
+        """Executes all scraping tasks."""
+        self.scrape_century("21st Century", 'List of last words (21st century)', limit_sections=3)
+        self.scrape_century("20th Century", 'List of last words (20th century)', limit_sections=10)
+        self.scrape_century("19th Century", 'List of last words (19th century)', limit_sections=10)
+        self.scrape_century("18th Century", 'List of last words (18th century)', limit_sections=10)
+        self.scrape_others()
+        print("Done!")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Scrape Wikipedia for Last Words")
+    parser.add_argument("--output", default="data/raw_data", help="Output directory")
+    args = parser.parse_args()
+
+    scraper = WikipediaLastWordsScraper(output_dir=args.output)
+    scraper.run()
