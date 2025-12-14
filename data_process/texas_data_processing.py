@@ -8,6 +8,10 @@ import pandas as pd
 import re
 import argparse
 import sys
+import logging
+
+# Configure logger for the module
+logger = logging.getLogger(__name__)
 
 class TexasDataProcessor:
     """
@@ -59,24 +63,24 @@ class TexasDataProcessor:
 
     def scrape_data(self):
         """Scrapes the main table and iterates through offenders to get last statements."""
-        print(f"Fetching main page: {self.main_url}")
+        logger.info(f"Fetching main page: {self.main_url}")
         try:
             response = requests.get(self.main_url)
             response.raise_for_status()
         except Exception as e:
-            print(f"Failed to fetch main page: {e}")
+            logger.error(f"Failed to fetch main page: {e}")
             raise e
 
         soup = BeautifulSoup(response.content, 'html.parser')
         table = soup.find('table')
         
         if not table:
-            print("Could not find the table.")
+            logger.error("Could not find the table.")
             return pd.DataFrame()
 
         rows = table.find_all('tr')
         data_to_save = []
-        print(f"Found {len(rows)} rows. Processing...")
+        logger.info(f"Found {len(rows)} rows. Processing...")
 
         for i, row in enumerate(rows[1:]): # Skip header
             cols = row.find_all('td')
@@ -117,14 +121,14 @@ class TexasDataProcessor:
                 })
                 
                 if i > 0 and i % 50 == 0:
-                    print(f"Processed {i} rows...")
+                    logger.info(f"Processed {i} rows...")
                     
             except Exception as e:
-                print(f"Error parsing row {i}: {e}")
+                logger.warning(f"Error parsing row {i}: {e}")
                 continue
 
         df = pd.DataFrame(data_to_save)
-        print(f"Collected {len(df)} records.")
+        logger.info(f"Collected {len(df)} records.")
         return df
 
     def clean_statement(self, text):
@@ -189,24 +193,24 @@ class TexasDataProcessor:
 
     def process_and_save(self):
         """Runs the full scraping and cleaning pipeline."""
-        print("Starting data collection...")
+        logger.info("Starting data collection...")
         df = self.scrape_data()
         
         if df.empty:
-            print("No data collected.")
+            logger.warning("No data collected.")
             return
 
-        print("Cleaning 'Last Statement' column...")
-        print("Removing context phrases...")
+        logger.info("Cleaning 'Last Statement' column...")
+        logger.info("Removing context phrases...")
         df['Last Statement'] = df['Last Statement'].apply(self.remove_context_phrases)
 
-        print("Checking for empty statements...")
+        logger.info("Checking for empty statements...")
         df['Last Statement'] = df['Last Statement'].apply(self.clean_statement)
 
-        print("Creating 'is_religious' column...")
+        logger.info("Creating 'is_religious' column...")
         df['is_religious'] = df['Last Statement'].apply(self.detect_religious)
 
-        print(f"Saving cleaned data to: {self.output_path}")
+        logger.info(f"Saving cleaned data to: {self.output_path}")
         os.makedirs(os.path.dirname(self.output_path), exist_ok=True)
         df.to_csv(self.output_path, index=False)
 
@@ -215,14 +219,19 @@ class TexasDataProcessor:
         religious_count = df['is_religious'].sum()
         none_count = df['Last Statement'].isna().sum()
 
-        print("-" * 30)
-        print(f"Processing Complete.")
-        print(f"Total records: {total}")
-        print(f"Records with No Statement (None): {none_count}")
-        print(f"Records marked as Religious: {religious_count}")
-        print("-" * 30)
+        logger.info("-" * 30)
+        logger.info("Processing Complete.")
+        logger.info(f"Total records: {total}")
+        logger.info(f"Records with No Statement (None): {none_count}")
+        logger.info(f"Records marked as Religious: {religious_count}")
+        logger.info("-" * 30)
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+    
     parser = argparse.ArgumentParser(description="Scrape and process Texas Death Row Last Statements")
     parser.add_argument("--output", default="data/raw_data", help="Output directory for CSV files")
     args = parser.parse_args()

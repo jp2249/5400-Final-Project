@@ -254,7 +254,7 @@ python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data.csv
 
 ## Code Implementation
 - [ ] Design OOP (classes for model, preprocessing, evaluation, etc.)
-- [ ] Add comments to all functions, methods, and classes
+- [x] Add comments to all functions, methods, and classes
 - [ ] Implement logging at key points (data loading, training, evaluation)
 - [ ] Follow PEP 8 standards using pylint (clean structure)
  
