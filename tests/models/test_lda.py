@@ -1,96 +1,56 @@
-
 import pytest
 import pandas as pd
-import numpy as np
-from unittest.mock import MagicMock, patch
-from lda.lda_last_words import run_lda_analysis
+from unittest.mock import patch
+from lda.lda_last_words import last_word_analysis
+
 
 @pytest.fixture
-def mock_df():
+def df_ok():
     return pd.DataFrame({
-        "quote": ["hello world", "goodbye world", "justice served", "another quote", "last words"],
-        "context": ["context one", "context two", "context three", "context four", "context five"],
-        "is_criminal": [1, 0, 1, 0, 1],
-        "is_religious": [0, 1, 0, 0, 1],
-        "is_expected": [1, 1, 0, 0, 1]
+        "quote": ["a", "b", "c"],
+        "context": ["x", "y", "z"],
+        "is_criminal": [1, 0, 1],
+        "is_religious": [0, 1, 0],
+        "is_expected": [1, 0, 1],
+        "year": [2001, 1999, 1805],          # <- prevents df.apply(lda.year_from_row, ...)
+        "century_bucket": ["21st", "20th", "19th"],  # <- prevents df["year"].apply(lda.bucket_century)
     })
 
-class TestLDAPipeline:
-    """Test suite for LDA Pipeline"""
+@pytest.fixture
+def df_empty():
+    return pd.DataFrame(columns=[
+        "quote", "context", "is_criminal", "is_religious",
+        "year", "century_bucket"
+    ])
 
-    @patch("lda.lda_last_words.spacy")
-    @patch("lda.lda_last_words.nltk")
-    @patch("lda.lda_last_words.LdaModel")
-    @patch("lda.lda_last_words.CoherenceModel")
-    @patch("lda.lda_last_words.corpora.Dictionary")
-    @patch("lda.lda_last_words.Phrases")
-    @patch("lda.lda_last_words.Phraser")
-    def test_run_lda_analysis(self, mock_phraser, mock_phrases, mock_dict, mock_coh, mock_lda, mock_nltk, mock_spacy, mock_df):
-        # Setup mocks
-        # Mock spacy
-        mock_nlp = MagicMock()
-        mock_spacy.load.return_value = mock_nlp
-        
-        # Mock tokens
-        doc_mock = MagicMock()
-        token_mock = MagicMock()
-        token_mock.lemma_ = "word"
-        token_mock.is_punct = False
-        token_mock.is_space = False
-        token_mock.like_num = False
-        doc_mock.__iter__.return_value = [token_mock]
-        mock_nlp.return_value = doc_mock
-        
-        # Mock Dictionary
-        mock_dictionary_instance = MagicMock()
-        mock_dictionary_instance.__len__.return_value = 10
-        mock_dict.return_value = mock_dictionary_instance
-        
-        # Mock LDA Model
-        mock_lda_instance = MagicMock()
-        # Mock get_document_topics to return list of (topic_id, prob)
-        # Assume 4 topics
-        mock_lda_instance.get_document_topics.return_value = [(0, 0.25), (1, 0.25), (2, 0.25), (3, 0.25)]
-        mock_lda_instance.print_topic.return_value = "0.1*word + 0.1*other"
-        mock_lda.return_value = mock_lda_instance
-        
-        # Mock Coherence Model
-        mock_coh_instance = MagicMock()
-        mock_coh_instance.get_coherence.return_value = 0.5
-        mock_coh.return_value = mock_coh_instance
-        
-        # Run functionality
-        result_df = run_lda_analysis(mock_df, nlp_model_name="en_core_web_sm")
-        
-        # Assertions
-        assert not result_df.empty
-        # We expect topics from K=4 (since it's in the list and we mocked constant coherence, it might pick any, but max of equal is first? or last?)
-        # Actually max used key with max val.
-        # Logic in code: topic_range = [4, 6, 8]
-        # We return constant coherence 0.5. 'max' will just pick one.
-        
-        # Check if any topic columns exist
-        topic_cols = [c for c in result_df.columns if c.startswith("topic_")]
-        assert len(topic_cols) > 0
-        
-        # Check if original columns are preserved
-        assert "quote" in result_df.columns
-        assert "context" in result_df.columns
-    
-        # Check if topic values are populated
-        assert not result_df[topic_cols].isnull().all().all()
+class TestLastWordAnalysis:
+    @patch("lda.lda_last_words.pd.read_csv")
+    @patch("lda.lda_last_words.LDALastWordsKGrid")
+    def test_last_word_analysis_happy_path(self, MockLDA, mock_read_csv, df_ok):
+        mock_read_csv.return_value = df_ok
 
-    def test_run_lda_analysis_validation(self):
-        # Test empty dataframe
-        empty_df = pd.DataFrame(columns=["quote", "context"])
-        with pytest.raises(ValueError, match="All documents are empty"):
-            # We need to create a slightly non-empty one that becomes empty or check logic
-            # Actually logic says: if df.empty raise.
-            # So pass empty df
-            # But run_lda checks columns first.
-             run_lda_analysis(empty_df)
-    
-        # Test missing columns
-        bad_df = pd.DataFrame({"foo": [1, 2]})
-        with pytest.raises(ValueError, match="must contain 'quote' and 'context'"):
-            run_lda_analysis(bad_df)
+        lda = MockLDA.return_value
+        lda.model_subset.return_value = df_ok.assign(topic_0=0.5)  # pretend modeling succeeded
+
+        results, df_out, lda_out = last_word_analysis("data/processed/last_words_data.csv", save=False)
+
+        assert "All" in results
+        assert results["All"] is not None
+        assert "quote" in df_out.columns
+        assert "context" in df_out.columns
+        lda.init_nlp.assert_called_once()
+        assert lda_out is lda
+
+    @patch("lda.lda_last_words.pd.read_csv")
+    @patch("lda.lda_last_words.LDALastWordsKGrid")
+    def test_last_word_analysis_empty_file(self, MockLDA, mock_read_csv, df_empty):
+        mock_read_csv.return_value = df_empty
+
+        lda = MockLDA.return_value
+        lda.model_subset.return_value = None  # modeling returns None on empty subsets
+
+        results, df_out, _ = last_word_analysis("fake.csv", save=False)
+
+        assert "All" in results
+        assert results["All"] is None
+        assert df_out.empty
