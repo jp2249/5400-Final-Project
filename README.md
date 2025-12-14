@@ -99,6 +99,13 @@ https://drive.google.com/file/d/1bevcP-T7q_yBcauPwTEWG77PcwIanhBY/view?usp=drive
 Place the processed data in the `data/processed_data` directory.
 
 
+# Testing all three models
+To run the full test suite (covering Criminal Identifier, Emotion Analysis, and LDA), execute the following command from the root directory:
+
+```bash
+python -m pytest tests/
+```
+
 
 # The Criminal Identifier Model
 
@@ -106,31 +113,6 @@ Place the processed data in the `data/processed_data` directory.
 
 The Criminal Identifier model is a binary classification system designed to determine whether a given quote belongs to a criminal or a non-criminal. It utilizes natural language processing (NLP) techniques to analyze the text and a machine learning classifier to make predictions.
 
-### Model structure
-
-The model pipeline consists of the following stages:
-
-1.  **Preprocessing**:
-    -   Raw data is cleaned and split into training and testing sets.
-    -   The `train_test_df` function handles this, saving processed files to `data/processed_data` (train) and `tests/data` (test).
-
-2.  **Feature Extraction**:
-    -   **TF-IDF Vectorizer**: Converts text data into numerical features.
-        -   `ngram_range`: (1, 2) (Unigrams and Bigrams)
-        -   `max_features`: 5000
-        -   `stop_words`: 'english'
-
-3.  **Classification**:
-    -   **Logistic Regression**: A linear model used for binary classification.
-        -   Penalty: L2 regularization
-        -   Optimization: `max_iter=1000`
-
-4.  **Evaluation**:
-    -   The model is evaluated using standard metrics: **Accuracy**, **Precision**, **Recall**, and **F1 Score**.
-
-5.  **Visualization and Analysis**:
-    -   **Top Features**: Identifies the most significant words/phrases for both "criminal" and "non-criminal" classes.
-    -   **Correlation Matrix**: Visualizes relationships between features.
 
 ## Running the Criminal Identifier model
 
@@ -147,13 +129,6 @@ python criminal_classifier/main.py -f /path/to/data/folder
 ```
 
 *Note:* If using a custom data folder, the input dataset must have a column named `quote` containing the text data and `is_criminal` containing the binary classification label.
-
-## Running Tests
-To run the full test suite (covering Criminal Identifier, Emotion Analysis, and LDA), execute the following command from the root directory:
-
-```bash
-python -m pytest tests/
-```
 
 
 # Emotion Analysis Model
@@ -281,4 +256,4 @@ python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data.csv
 - [ ] All tests pass d
 
 
- d
+ 
