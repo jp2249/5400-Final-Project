@@ -195,6 +195,7 @@ python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.c
 | `--wordcloud`, `--top-emotions`, `--composition`, `--emotion-hist`, `--all-plots` | Visualization options |
 
 
+
 # LDA Topic Modeling
 
 To uncover latent themes within the last statements, we employ Latent Dirichlet Allocation (LDA). This module provides two scripts for topic modeling:
@@ -204,14 +205,16 @@ To uncover latent themes within the last statements, we employ Latent Dirichlet 
 This script performs a standard LDA analysis on the entire dataset.
 
 **Pipeline Steps:**
-1.  **Preprocessing**: Tokenization, lemmatization, and stopword removal using spaCy and NLTK.
-2.  **Bigram Generation**: Automatically detects and forms common phrases (e.g., "death row", "heavenly father").
-3.  **Topic Modeling**: Trains LDA models with varying numbers of topics (K=4, 6, 8).
-4.  **Coherence Tuning**: Selects the best K based on Coherence Score (c_v).
-
+1.  **Text Preprocessing**: Tokenization, lemmatization, and stopword removal using spaCy and NLTK.
+2.  **Phrase Detection**: Automatically detects and forms common phrases (e.g., "death row", "heavenly father").
+3.  **Topic Modeling(LDA)**: Trains LDA models with varying numbers of topics (K=4, 6, 8).
+4.  **Model Selection incl Tuning**: Selects the best K based on Coherence Score (c_v).
+5.  **MOutput Generation**: Writes all csv file per document topic for each subset.
+**Note**
+This script runs the entire pipleline for all subset and k-values and multiple seeds and takes around 20-30 mins. This is expected behavior and reflects the cost of coherence model selection than script performance.
 **Usage:**
 ```bash
-python lda/lda_last_words.py --csv data/processed_data/last_words_data.csv
+python -m lda.lda_last_words
 ```
 
 ## Advanced Segmented Analysis (`lda/lda_last_words_kgrid.py`)
