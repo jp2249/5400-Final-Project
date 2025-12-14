@@ -246,7 +246,7 @@ python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data.csv
 - [x] Project aim and research question
 - [x] Installation instructions
 - [x] Usage examples with code snippets
-- [ ] Architecture diagram (created with draw.io or similar)
+- [x] Architecture diagram (created with draw.io or similar)
 - [x] Data download/access instructions
 - [x] Dependencies and environment setup guide
 
@@ -259,9 +259,9 @@ python lda/lda_last_words_kgrid.py --csv data/processed_data/last_words_data.csv
 - [x] NO data pushed to GitHub
 
 ## Code Implementation
-- [ ] Design OOP (classes for model, preprocessing, evaluation, etc.)
+- [x] Design OOP (classes for model, preprocessing, evaluation, etc.)
 - [x] Add comments to all functions, methods, and classes
-- [ ] Implement logging at key points (data loading, training, evaluation)
+- [x] Implement logging at key points (data loading, training, evaluation)
 - [ ] Follow PEP 8 standards using pylint (clean structure)
  
 ## Testing Suite
