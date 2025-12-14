@@ -40,7 +40,6 @@
 │   └── lda_last_words.py
 ├── pyproject.toml
 ├── pytest.ini
-├── README.html
 ├── README.md
 └── tests
     ├── data
