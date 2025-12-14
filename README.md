@@ -46,6 +46,18 @@
     └── models
 ```
 
+# Diagram of the project
+
+![Diagram](diagram.png)
+
+
+# Git clone the repository
+
+```bash
+git clone https://github.com/jp2249/5400-Final-Project.git
+```
+
+
 # Setup and Installation
 
 This project uses **Conda** for environment management and **pip** for package installation. The code is organized in the **root** directory.
