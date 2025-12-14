@@ -8,6 +8,10 @@ import re
 import argparse
 import os
 import sys
+import logging
+
+# Configure logger for the module
+logger = logging.getLogger(__name__)
 
 class WikipediaLastWordsScraper:
     """
@@ -63,11 +67,11 @@ class WikipediaLastWordsScraper:
 
     def scrape_century(self, century_name, page_title, limit_sections=None):
         """Scrapes a specific century page."""
-        print(f"Scraping {century_name}...")
+        logger.info(f"Scraping {century_name}...")
         page = self.wiki.page(page_title)
         
         if not page.exists():
-            print(f"Page '{page_title}' does not exist.")
+            logger.warning(f"Page '{page_title}' does not exist.")
             return
 
         text = ""
@@ -76,20 +80,20 @@ class WikipediaLastWordsScraper:
             text += section.text
         
         df = self.parse_text(text)
-        print(f"Collected {len(df)} records for {century_name}.")
+        logger.info(f"Collected {len(df)} records for {century_name}.")
         
         filename = f"last_words_{century_name.replace(' ', '_').lower()}.csv"
         path = os.path.join(self.output_dir, filename)
         df.to_csv(path, index=False)
-        print(f"Saved to {path}")
+        logger.info(f"Saved to {path}")
 
     def scrape_others(self):
         """Scrapes the main list page for pre-17th century, ironic, and notable last words."""
-        print("Scraping Other sections...")
+        logger.info("Scraping Other sections...")
         page = self.wiki.page('List of last words')
         
         if not page.exists():
-            print("Main 'List of last words' page not found.")
+            logger.warning("Main 'List of last words' page not found.")
             return
 
         # Pre 17th Century
@@ -116,7 +120,7 @@ class WikipediaLastWordsScraper:
     def _save_df(self, df, filename):
         path = os.path.join(self.output_dir, filename)
         df.to_csv(path, index=False)
-        print(f"Saved {len(df)} records to {path}")
+        logger.info(f"Saved {len(df)} records to {path}")
 
     def run(self):
         """Executes all scraping tasks."""
@@ -125,9 +129,14 @@ class WikipediaLastWordsScraper:
         self.scrape_century("19th Century", 'List of last words (19th century)', limit_sections=10)
         self.scrape_century("18th Century", 'List of last words (18th century)', limit_sections=10)
         self.scrape_others()
-        print("Done!")
+        logger.info("Done!")
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+
     parser = argparse.ArgumentParser(description="Scrape Wikipedia for Last Words")
     parser.add_argument("--output", default="data/raw_data", help="Output directory")
     args = parser.parse_args()
