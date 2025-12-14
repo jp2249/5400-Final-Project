@@ -8,6 +8,12 @@
 - Sam Gold
 - Nikhil Poluri
 
+# Access to Presentation PPT
+
+[Download Presentation Slides](5400_Final_Project_Presentation.pptx)
+
+
+
 # Project aim and research questions
 
 - How Do Humans comprehend Death?
