@@ -93,7 +93,7 @@ This project uses **Conda** for environment management and **pip** for package i
 
 # Data Processing
 
-## Collect raw data from Wikipedia and Texas execution data
+## (Optional) Collect raw data from Wikipedia and Texas execution data
 ```bash
 python data_process/wikipedia_scraping.py
 python data_process/texas_data_processing.py
