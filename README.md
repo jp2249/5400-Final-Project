@@ -28,9 +28,7 @@
 │   └── raw_data
 ├── data_process
 │   ├── __init__.py
-│   ├── texas_data_processing.ipynb
 │   ├── texas_data_processing.py
-│   ├── wikipedia_scraping.ipynb
 │   └── wikipedia_scraping.py
 ├── Emotion-Model
 │   ├── __init__.py
