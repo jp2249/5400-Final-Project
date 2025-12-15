@@ -118,7 +118,7 @@ Place the processed data in the `data/processed_data` directory.
 To run the full test suite (covering Criminal Identifier, Emotion Analysis, and LDA), execute the following command from the root directory:
 
 ```bash
-python -m pytest tests/
+python -m pytest
 ```
 
 
