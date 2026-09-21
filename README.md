@@ -1,5 +1,7 @@
 # 5400-Final-Project
 
+## Final Thoughts: Sentiment Analysis on Last Statements
+
 ### Team Members:
 
 - Jeffrey Pinarchick
