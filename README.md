@@ -216,7 +216,7 @@ This script performs a standard LDA analysis on the entire dataset.
 2.  **Phrase Detection**: Automatically detects and forms common phrases (e.g., "death row", "heavenly father").
 3.  **Topic Modeling(LDA)**: Trains LDA models with varying numbers of topics (K=4, 6, 8).
 4.  **Model Selection incl Tuning**: Selects the best K based on Coherence Score (c_v).
-5.  **MOutput Generation**: Writes all csv file per document topic for each subset.
+5.  **Output Generation**: Writes all csv file per document topic for each subset.
 **Note**
 This script runs the entire pipleline for all subset and k-values and multiple seeds and takes around 20-30 mins. This is expected behavior and reflects the cost of coherence model selection than script performance.
 **Usage:**
