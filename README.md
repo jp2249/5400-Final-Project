@@ -56,11 +56,7 @@
 
 # Diagram of the project
 
-![Diagram](diagram.png)
-
-## Data Pipeline
-
-![Pipeline](pipeline.svg)
+![Diagram](pipeline.svg)
 
 # Git clone the repository
 
