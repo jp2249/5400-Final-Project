@@ -67,7 +67,7 @@ git clone https://github.com/jp2249/5400-Final-Project.git
 
 # Setup and Installation
 
-[Setup Diagram](diagram.png)
+![Setup Diagram](diagram.png)
 
 This project uses **Conda** for environment management and **pip** for package installation. The code is organized in the **root** directory.
 
