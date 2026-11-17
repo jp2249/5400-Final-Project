@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M1,1 L9,5 L1,9 z" fill="#fff" stroke="#555"/></marker></defs>
+<rect width="900" height="400" fill="#fff"/>
+<text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">Emotion Analysis Structure</text>
+<g font-size="13" text-anchor="middle">
+<rect x="20" y="70" width="240" height="90" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="140" y="98" font-weight="bold" fill="#1f3d7a">EmotionAnalyzer</text><text x="140" y="120" fill="#333">HuggingFace transformers</text><text x="140" y="138" fill="#333">Adds emotion columns to CSV</text>
+<rect x="320" y="70" width="260" height="90" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="450" y="98" font-weight="bold" fill="#7a4a00">PlotAnalyzer (base class)</text><text x="450" y="120" fill="#333">Data preparation</text><text x="450" y="138" fill="#333">Subset filtering</text>
+<rect x="320" y="260" width="124" height="70" rx="8" fill="#e6f4ea" stroke="#3b8f4f"/><text x="382" y="290" font-weight="bold" fill="#1d5c2e">WordCloud</text><text x="382" y="308" font-weight="bold" fill="#1d5c2e">Generator</text>
+<rect x="454" y="260" width="124" height="70" rx="8" fill="#e6f4ea" stroke="#3b8f4f"/><text x="516" y="290" font-weight="bold" fill="#1d5c2e">Composition</text><text x="516" y="308" font-weight="bold" fill="#1d5c2e">Chart</text>
+<rect x="588" y="260" width="124" height="70" rx="8" fill="#e6f4ea" stroke="#3b8f4f"/><text x="650" y="290" font-weight="bold" fill="#1d5c2e">TopEmotions</text><text x="650" y="308" font-weight="bold" fill="#1d5c2e">Chart</text>
+<rect x="722" y="260" width="124" height="70" rx="8" fill="#e6f4ea" stroke="#3b8f4f"/><text x="784" y="299" font-weight="bold" fill="#1d5c2e">EmotionHist</text>
+<rect x="650" y="90" width="230" height="50" rx="8" fill="#f1f1f1" stroke="#888"/><text x="765" y="112" fill="#333">--subset: criminal, 1900s,</text><text x="765" y="129" fill="#333">religious, expected ...</text>
+</g>
+<g stroke="#555" stroke-width="2" fill="none">
+<path d="M260 115 L318 115" stroke-dasharray="6 4" marker-end="url(#a)"/>
+<path d="M382 260 L382 220 L450 220"/><path d="M516 260 L516 220 L450 220"/><path d="M650 260 L650 220 L450 220"/><path d="M784 260 L784 220 L450 220"/>
+<path d="M450 220 L450 162" marker-end="url(#a)"/>
+<path d="M580 115 L648 115" stroke-dasharray="2 4"/>
+</g>
+<text x="289" y="140" text-anchor="middle" font-size="11" fill="#666">output CSV feeds</text>
+<text x="450" y="372" text-anchor="middle" font-size="12" fill="#666">Solid arrows: inheritance. Dashed arrow: analysis output is the plotting input (use --skip-analysis).</text>
+</svg>

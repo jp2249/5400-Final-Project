@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<rect width="900" height="520" fill="#fff"/>
+<text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">Project Pipeline</text>
+<g font-size="13" text-anchor="middle">
+<rect x="40" y="70" width="180" height="56" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="130" y="94" font-weight="bold" fill="#1f3d7a">Wikipedia</text><text x="130" y="112" fill="#333">wikipedia_scraping.py</text>
+<rect x="260" y="70" width="180" height="56" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="350" y="94" font-weight="bold" fill="#1f3d7a">Texas execution data</text><text x="350" y="112" fill="#333">texas_data_processing.py</text>
+<rect x="150" y="165" width="240" height="56" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="270" y="189" font-weight="bold" fill="#7a4a00">Raw data</text><text x="270" y="207" fill="#333">data/raw_data</text>
+<rect x="150" y="260" width="240" height="56" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="270" y="284" font-weight="bold" fill="#7a4a00">Manual cleaning &amp; labeling</text><text x="270" y="302" fill="#333">criminal, religious, expected, date</text>
+<rect x="150" y="355" width="240" height="56" rx="8" fill="#e6f4ea" stroke="#3b8f4f"/><text x="270" y="379" font-weight="bold" fill="#1d5c2e">Processed data</text><text x="270" y="397" fill="#333">data/processed_data</text>
+<rect x="520" y="90" width="340" height="86" rx="8" fill="#f3e8fd" stroke="#8a4fc2"/><text x="690" y="116" font-weight="bold" fill="#4a1f7a">Criminal Identifier</text><text x="690" y="136" fill="#333">criminal_classifier/main.py</text><text x="690" y="156" fill="#333">Output: criminal vs. non-criminal prediction</text>
+<rect x="520" y="200" width="340" height="86" rx="8" fill="#f3e8fd" stroke="#8a4fc2"/><text x="690" y="226" font-weight="bold" fill="#4a1f7a">Emotion Analysis</text><text x="690" y="246" fill="#333">Emotion-Model/emotion_analysis.py</text><text x="690" y="266" fill="#333">Output: emotion CSV, word clouds, charts</text>
+<rect x="520" y="310" width="340" height="86" rx="8" fill="#f3e8fd" stroke="#8a4fc2"/><text x="690" y="336" font-weight="bold" fill="#4a1f7a">LDA Topic Modeling</text><text x="690" y="356" fill="#333">lda/lda_last_words*.py</text><text x="690" y="376" fill="#333">Output: per-document topic CSVs</text>
+<rect x="520" y="430" width="340" height="56" rx="8" fill="#f1f1f1" stroke="#888"/><text x="690" y="454" font-weight="bold" fill="#333">Tests</text><text x="690" y="472" fill="#333">python -m pytest covers all three models</text>
+</g>
+<g stroke="#555" stroke-width="2" fill="none" marker-end="url(#a)">
+<path d="M130 126 L130 145 L230 145 L230 163"/><path d="M350 126 L350 145 L310 145 L310 163"/>
+<path d="M270 221 L270 258"/><path d="M270 316 L270 353"/>
+<path d="M390 383 L460 383 L460 133 L518 133"/><path d="M460 243 L518 243"/><path d="M460 353 L518 353"/>
+</g>
+<text x="150" y="448" font-size="12" fill="#666">Optional: data can also be downloaded pre-processed</text>
+</svg>

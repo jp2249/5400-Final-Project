@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" font-family="Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker></defs>
+<rect width="900" height="360" fill="#fff"/>
+<text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">LDA Pipeline (lda_last_words.py)</text>
+<g font-size="12.5" text-anchor="middle">
+<rect x="20" y="70" width="152" height="110" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="96" y="96" font-weight="bold" fill="#1f3d7a">1. Preprocessing</text><text x="96" y="120" fill="#333">Tokenization</text><text x="96" y="138" fill="#333">Lemmatization</text><text x="96" y="156" fill="#333">Stopword removal</text>
+<rect x="190" y="70" width="152" height="110" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="266" y="96" font-weight="bold" fill="#1f3d7a">2. Phrase detection</text><text x="266" y="120" fill="#333">"death row"</text><text x="266" y="138" fill="#333">"heavenly father"</text>
+<rect x="360" y="70" width="152" height="110" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="436" y="96" font-weight="bold" fill="#1f3d7a">3. Train LDA</text><text x="436" y="120" fill="#333">K = 4, 6, 8</text><text x="436" y="138" fill="#333">Multiple seeds</text>
+<rect x="530" y="70" width="152" height="110" rx="8" fill="#e8f0fe" stroke="#4a78c2"/><text x="606" y="96" font-weight="bold" fill="#1f3d7a">4. Model selection</text><text x="606" y="120" fill="#333">Coherence score</text><text x="606" y="138" fill="#333">(c_v) picks best K</text>
+<rect x="700" y="70" width="180" height="110" rx="8" fill="#e6f4ea" stroke="#3b8f4f"/><text x="790" y="96" font-weight="bold" fill="#1d5c2e">5. Output</text><text x="790" y="120" fill="#333">CSV of per-document</text><text x="790" y="138" fill="#333">topics, per subset</text>
+</g>
+<g stroke="#555" stroke-width="2" fill="none" marker-end="url(#a)"><path d="M172 125 L188 125"/><path d="M342 125 L358 125"/><path d="M512 125 L528 125"/><path d="M682 125 L698 125"/></g>
+<g font-size="13" text-anchor="middle">
+<text x="450" y="228" font-weight="bold" fill="#222">Segmented runs (lda_last_words_kgrid.py)</text>
+<rect x="40" y="245" width="150" height="46" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="115" y="273" fill="#333">Entire dataset</text>
+<rect x="215" y="245" width="150" height="46" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="290" y="273" fill="#333">Each century</text>
+<rect x="390" y="245" width="150" height="46" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="465" y="273" fill="#333">Criminal / not</text>
+<rect x="565" y="245" width="150" height="46" rx="8" fill="#fff4e0" stroke="#d9972b"/><text x="640" y="273" fill="#333">Religious / not</text>
+<rect x="740" y="245" width="130" height="46" rx="8" fill="#f3e8fd" stroke="#8a4fc2"/><text x="805" y="273" fill="#4a1f7a">Adaptive K-grid</text>
+</g>
+<text x="450" y="325" text-anchor="middle" font-size="12" fill="#666">K range adapts to each subset's document count to avoid overfitting small groups.</text>
+</svg>
