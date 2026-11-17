@@ -58,6 +58,9 @@
 
 ![Diagram](diagram.png)
 
+## Data Pipeline
+
+![Pipeline](pipeline.svg)
 
 # Git clone the repository
 
@@ -150,6 +153,8 @@ python criminal_classifier/main.py -f /path/to/data/folder
 
 # Emotion Analysis Model
 
+![Diagram](emotion.svg)
+
 ## Structure
 
 - `EmotionAnalyzer`: Runs emotion classification using HuggingFace transformers
@@ -199,6 +204,8 @@ python Emotion-Model/emotion_analysis.py -f data/processed_data/emotion_output.c
 
 
 # LDA Topic Modeling
+
+![LDA Diagram](lda.svg)
 
 To uncover latent themes within the last statements, we employ Latent Dirichlet Allocation (LDA). This module provides two scripts for topic modeling:
 
